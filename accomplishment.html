@@ -1,19 +1,28 @@
-<!--Patrick Castillo Midterm Portfolio-->
+<!--Patrick Castillo Final Portfolio-->
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>Rough Draft Portfolio</title>
-    <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+    <title>Final Portfolio</title>
+    <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 
 <body>
+    <!-- Left navigation panel (copied from homepage): click the handle to open a simple list of links. The panel slides out and nudges the page so content stays visible. -->
+    <div class="folding-tab" aria-hidden="false">
+        <button class="tab-toggle" aria-expanded="false" aria-controls="tab-panel">&#9776; Links</button>
+        <nav id="tab-panel" class="tab-panel" aria-hidden="true">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="accomplishment.html">Accomplishments</a></li>
+                <li><a href="Assignments.html">Assignments</a></li>
+                <li><a href="https://github.com/patrickkst" target="_blank" rel="noopener">Github</a></li>
+            </ul>
+        </nav>
+    </div>
     <div id="header">
-        <h1>Midterm Rough Draft Portfolio</h1>
-        <a id="link" href="index.html">Home</a>
-        <!--<a id="link" href="https://github.com/patrickkst">Github</a>-->
-        <a id="link" href="accomplishment.html">Accomplishments</a>
+        <h1>Final Portfolio</h1>
         <h2>Patrick Castillo</h2>
         <div id="container">
             <p><strong>Accomplishments and Challenges</strong></p>
@@ -74,8 +83,7 @@
 
 
 
-                <p>Challenge - Focusing my time on Linux Admin class since I had a Math exam that week that took most of
-                    time to study for.</p>
+                <p>Challenge - Focusing my time on Linux Admin class since I had a Math exam that week that took most of time to study for.</p>
 
 
 
@@ -124,6 +132,95 @@
 
 
                 <p>Challenge - Doing the rought draft portfolio using html,css.</p>
+                <p>Week ending 11/2</p>
+
+
+
+                <p>Accomplishment -I started work on awk lab</p>
+
+
+
+                <p>Challenge -I struggled on using my time efficiently managing work and other classes</p>
+
+
+
+
+
+
+
+                <p>Week ending 11/9</p>
+
+
+
+                <p>Accomplishment - Almost being done with awklab and continue setup</p>
+
+
+
+                <p>Challenge - Couldnt finish awk lab due to not using my time effciently. I sruggled using my time efficiently</p>
+
+
+
+
+
+
+
+                <p>Week ending 11/16</p>
+
+
+
+                <p>Accomplishment - Finished the awklab and continued working on continue setup assignment</p>
+
+
+
+                <p>Challenge - Researching the information required to do the assignment continue setup</p>
+
+
+
+
+
+
+
+                <p>Week ending 11/23</p>
+
+
+
+                <p>Accomplishment -Finished Continue setup assignment</p>
+
+
+
+                <p>Challenge -Struggled completing the problems while also completing the deliverables.</p>
+
+
+
+
+
+
+
+                <p>Week ending 11/30</p>
+
+
+
+                <p>Accomplishment -Started the networking assignment and finished it</p>
+
+
+
+                <p>Challenge -Struggled with finding the required information for the assignment</p>
+
+
+
+
+
+
+
+                <p>Week ending 12/7</p>
+
+
+
+                <p>Accomplishment - Worked on fixing the assignments that needed revising and worked on firewalls assignment</p>
+
+
+
+                <p>Challenge - Couldnt log wireshark sending the port 80 to 8080. Even though it was working because Apache was reachable on port 80 while listening to port 8080. Also worked on the portfolio added some javascript.</p>
             </div>
         </div>
     </div>
@@ -134,4 +231,36 @@
             <p>Patrick Castillo</p>
         </div>
     </div>
+    <script>
+        // Toggle for the left navigation panel. Opens/closes the panel and shifts the page so you still see content.
+        document.addEventListener('DOMContentLoaded', function () {
+            const tab = document.querySelector('.folding-tab');
+            if (!tab) return;
+            const btn = tab.querySelector('.tab-toggle');
+            const panel = tab.querySelector('.tab-panel');
+
+            function setState(open) {
+                tab.classList.toggle('open', open);
+                btn.setAttribute('aria-expanded', open);
+                panel.setAttribute('aria-hidden', !open);
+                document.body.classList.toggle('tab-open', open);
+            }
+
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isOpen = tab.classList.toggle('open');
+                setState(isOpen);
+            });
+
+            // If someone clicks outside the panel, close it and return the page to normal.
+            document.addEventListener('click', (e) => {
+                if (!tab.contains(e.target) && tab.classList.contains('open')) {
+                    setState(false);
+                }
+            });
+
+            // Don't let clicks inside the panel bubble up and accidentally close it.
+            panel.addEventListener('click', (e) => e.stopPropagation());
+        });
+    </script>
 </body>

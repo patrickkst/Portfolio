@@ -1,7 +1,11 @@
+/* Basic page setup — keeps layout consistent across browsers and gives the page a calm background. */
+*, *::before, *::after { box-sizing: border-box; }
 body {
-    font: 76% arial, sans-serif;
-    text-align: center;
+    font: 76%/1.4 arial, sans-serif;
+    color: #012;
     margin: 0;
+    background: #f7ffff;
+    -webkit-font-smoothing: antialiased;
 }
 
 p {
@@ -17,27 +21,27 @@ a#link {
 
 div#header {
     background-color: #43d4d4;
-    margin-left: 350px;
-    margin-right: 350px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 12px 16px;
 }
 
 div#header h1 {
-    height: 80px;
-    line-height: 80px;
     margin: 0;
-    padding-left: 10px;
+    padding: 8px 0;
+    font-size: 1.6rem;
     text-align: center;
 }
 
 div#header h2 {
-    height: 80px;
-    line-height: 80px;
-    margin: 0;
-    padding-left: 10px;
+    margin: 6px 0 0 0;
+    padding: 4px 0 10px 0;
+    font-size: 1.05rem;
+    text-align: center;
 }
 
 div#container {
-    text-align: left
+    text-align: left;
 }
 
 div#content p {
@@ -48,8 +52,9 @@ div#content p {
 
 div#extra {
     background:#43d4d4;
-    margin-left: 350px;
-    margin-right: 350px;
+    max-width: 1100px;
+    margin: 16px auto;
+    padding: 12px;
     clear: both;
 }
 
@@ -62,15 +67,160 @@ div#footer p {
     padding: 5px 10px
 }
 
+/* Main content container — centered and padded for comfortable reading on all screens. */
 div#container {
-    width: 700px;
-    margin: 0 auto;
+    max-width: 900px;
+    margin: 18px auto;
     background-color: #6affff;
+    padding: 14px;
 }
 
+/* Content area — stretches to fit smaller screens, and participates in a gentle two-column layout on wide screens. */
 div#content {
-    float: left;
-    width: 500px
+    width: 100%;
+    margin: 0;
+}
+
+/* On larger displays, arrange content in two columns so the page feels balanced and readable. */
+@media (min-width: 900px) {
+    div#container { display: flex; gap: 20px; align-items: flex-start; }
+    div#content { flex: 1 1 60%; }
+}
+
+/* Styles for the left sliding links panel and its small handle. This creates the visible handle, the sliding area, and the open/closed states. */
+.folding-tab {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    height: 100vh;
+    z-index: 9999;
+    width: 56px; /* collapsed width (visible handle) */
+    transition: width 0.28s ease;
+    background: transparent;
+    overflow: visible;
+}
+.folding-tab .tab-toggle {
+    display: block;
+    width: 56px;
+    height: 56px;
+    margin: 12px 0 0 0;
+    border: none;
+    background: #43d4d4;
+    color: #012;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 0 6px 6px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.folding-tab .tab-panel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 320px; /* panel width when open */
+    background: #6affff;
+    padding-top: 16px;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.12);
+    transform-origin: left center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s ease, transform 0.28s ease;
+    transform: translateX(-8px) scaleX(0.98);
+}
+.folding-tab .tab-panel ul { list-style: none; margin: 12px; padding: 0; }
+.folding-tab .tab-panel li { margin: 12px 0; }
+.folding-tab .tab-panel a { color: #012; text-decoration: none; font-weight: 600; padding: 8px 12px; display: inline-block; }
+.folding-tab.open {
+    width: 320px;
+}
+.folding-tab.open .tab-panel {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0) scaleX(1);
+}
+
+/* When the panel opens, visually shift page content using transform so the layout width doesn't increase. */
+body { -webkit-font-smoothing: antialiased; }
+
+/* Apply the sliding transform to all top-level children except the folding tab itself. This avoids changing layout width (no horizontal scroll). */
+body > *:not(.folding-tab) {
+    transition: transform 0.28s ease;
+}
+
+/* When open, translate page content to the right by the panel width. */
+body.tab-open > *:not(.folding-tab) {
+    transform: translateX(320px);
+}
+
+/* Small-screen adjustments — tighter spacing and smaller panel width for phones. */
+@media (max-width: 640px) {
+    .folding-tab { width: 48px; }
+    .folding-tab .tab-toggle { width: 48px; height: 48px; }
+    .folding-tab .tab-panel { width: 220px; }
+    /* Use transform on page content for small screens too, avoiding layout width changes */
+    body.tab-open > *:not(.folding-tab) { transform: translateX(220px); }
+
+    /* Make header text a bit smaller on small screens */
+    div#header h1 { font-size: 1.25rem; }
+    div#header { padding: 10px; }
+    div#container { padding: 10px; margin: 12px; }
+}
+
+/* Assignment images: show side-by-side on wide screens and stack on small screens */
+.assignment-images {
+    /* Stack images vertically with comfortable spacing for readability */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    margin: 18px 0;
+}
+.assignment-figure {
+    width: 100%;
+    max-width: 880px; /* keep very wide images from overflowing */
+    text-align: center;
+}
+.assignment-figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+.assignment-figure figcaption {
+    margin-top: 8px;
+    font-size: 0.95rem;
+    color: rgba(0,0,0,0.7);
+}
+@media (max-width: 640px) {
+    .assignment-figure { padding: 0 6px; }
+}
+
+/* Ensure images placed directly inside .assignment-images (no figure) also scale to the page */
+.assignment-images img {
+    width: 100%;
+    max-width: 880px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+.assignment-images p {
+    width: 100%;
+    max-width: 880px;
+    margin: 6px auto 0 auto;
+    padding: 0 6px;
+}
+
+/* Prevent extremely tall images from pushing the layout too far — scale to viewport height if necessary */
+.assignment-images img { max-height: 80vh; object-fit: contain; }
+
+@media (max-width: 640px) {
+    .assignment-images img { max-height: 60vh; }
 }
 
 
